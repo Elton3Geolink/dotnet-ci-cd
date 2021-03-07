@@ -1,6 +1,6 @@
 using System;
 
-namespace AppDotNet.Models
+namespace Masp.Models
 {
     public class ErrorViewModel
     {

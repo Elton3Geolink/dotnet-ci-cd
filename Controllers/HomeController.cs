@@ -5,10 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AppDotNet.Models;
-using Microsoft.Extensions.Configuration;
+using Masp.Models;
 
-namespace AppDotNet.Controllers
+namespace Masp.Controllers
 {
     public class HomeController : Controller
     {
@@ -19,10 +18,10 @@ namespace AppDotNet.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index([FromServices] IConfiguration config)
+        public IActionResult Index()
         {
-            ViewBag.Ambiente = config["Ambiente"];
-            return View();
+            return RedirectToAction("Usuario");
+            //return View();
         }
 
         public IActionResult Privacy()
@@ -34,6 +33,19 @@ namespace AppDotNet.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        //public IActionResult Usuario()
+        //{
+        //    return View(new Usuario());
+        //}
+
+        public IActionResult Usuario(string masp)
+        {
+            if(!string.IsNullOrWhiteSpace(masp))
+                return View(new Usuario().Obter(masp));
+
+            return View(null);
         }
     }
 }
