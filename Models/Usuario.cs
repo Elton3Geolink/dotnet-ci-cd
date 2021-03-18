@@ -58,6 +58,14 @@ namespace Masp.Models
                         Nome = "Capacitacao1",
                         Particular = false,
                         UF = "MG"
+                    },
+                    new Capacitacao()
+                    {
+                        Id = Guid.Parse("3B9C682F-24DB-4DB0-9787-08D89F82000D"),
+                        CaminhoEscudo = "escudo2.png",
+                        Nome = "Capacitacao2",
+                        Particular = true,
+                        UF = "SP"
                     }
                 }
 
@@ -75,13 +83,13 @@ namespace Masp.Models
                 {
                     new Arma()
                     {
-                        CaminhoFoto = "bereta.png",
-                        Nome = "Bereta"
+                        CaminhoFoto = "ak47.png",
+                        Nome = "AK 47"
                     },
                     new Arma()
                     {
-                        CaminhoFoto = "fuzil.png",
-                        Nome = "Fuzil"
+                        CaminhoFoto = "40.png",
+                        Nome = ".40"
                     },
                 },
                 Capacitacoes = new List<Capacitacao>()

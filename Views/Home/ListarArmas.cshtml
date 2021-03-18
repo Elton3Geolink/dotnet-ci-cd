@@ -1,0 +1,100 @@
+﻿
+@model Masp.Models.Usuario
+
+@{
+    ViewData["Title"] = "Usuario";
+
+    string masp_user = (Model != null && !string.IsNullOrWhiteSpace(Model.Masp)) ? Model.Masp : string.Empty;
+
+    string srcImagem = (Model != null && !string.IsNullOrWhiteSpace(Model.CaminhoFoto)) ? Model.CaminhoFoto : "user.png";
+}
+
+@{
+    string strMasp = Model != null ? Model.Masp : string.Empty;
+}
+
+
+<hr />
+
+
+<div class="row">
+
+    @{
+        <div class="col-md-3">
+            <div class="box-foto">
+                <h5>POLÍCIA PENAL</h5>
+
+                <img src="~/images/@Html.Raw(srcImagem)" asp-append-version="true">
+
+                <div class="inputs">
+                    <form asp-action="Usuario">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(strMasp))
+                                @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' value={strMasp} />")
+                                else
+                                    @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' />")
+
+                        }
+
+                        <input type="submit" value=">" class="btn-input" />
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+
+
+
+    <div class="col-md-6">
+        <div style="text-align:center;" class="box-brazao">
+            <img src="~/images/brazao-sistema-prisional.png" asp-append-version="true" style="width:300px;height:300px;">
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Armamento Habilitado:</h2>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" style="text-align:center;">
+
+        @{
+            if (Model != null && Model.Armas.Any())
+            {
+                foreach (var arma in Model.Armas)
+                {
+                    <div class="box-arm">
+                        <span class="titulo">@Html.Raw(arma.Nome)</span>
+                        <div class="img-arm">
+                            <img src="~/images/@Html.Raw(arma.CaminhoFoto)" asp-append-version="true">
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

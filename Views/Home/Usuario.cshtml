@@ -2,51 +2,109 @@
 
 @{
     ViewData["Title"] = "Usuario";
+
+    string masp_user = (Model != null && !string.IsNullOrWhiteSpace(Model.Masp)) ? Model.Masp : string.Empty;
+
+    string srcImagem = (Model != null && !string.IsNullOrWhiteSpace(Model.CaminhoFoto)) ? Model.CaminhoFoto : "user.png";
 }
 
-<h1>Usuario</h1>
+@{
+    string strMasp = Model != null ? Model.Masp : string.Empty;
+}
 
-<h4>Usuario</h4>
+
 <hr />
+
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Usuario">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
-            <div class="form-group">
-                <label asp-for="Masp" class="control-label"></label>
-                <input asp-for="Masp" class="form-control" />
-                <span asp-validation-for="Masp" class="text-danger"></span>
+
+    @{
+        <div class="col-md-3">
+                <div class="box-foto">
+                    <h5>POLÍCIA PENAL</h5>
+
+                    <img src="~/images/@Html.Raw(srcImagem)" asp-append-version="true">
+
+                    <div class="inputs">
+                        <form asp-action="Usuario">
+                            @{
+                                if (!string.IsNullOrWhiteSpace(strMasp))
+                                    @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' value={strMasp} />")
+                                    else
+                                        @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' />")
+
+                            }
+
+                            <input type="submit" value=">" class="btn-input" />
+                        </form>
+                    </div>
+
+
+                    @{
+                        if (Model != null)
+                        {
+                            <div class="links">
+                                <a href='/home/ListarArmas?masp_user=@Html.Raw(masp_user)'>Armamento</a>
+                                <br />
+                                 <a href='/home/ListarCursos?masp_user=@Html.Raw(masp_user)'>Treinamento</a>
+                            </div>
+                            
+                        }
+                    }
+
+                </div>
+
+        </div>
+    }
+
+
+
+
+
+    <div class="col-md-6">
+        <div style="text-align:center;" class="box-brazao">
+            <img src="~/images/brazao-sistema-prisional.png" asp-append-version="true" style="width:300px;height:300px;">
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>DEPARTAMENTO</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>PENITENCIÁRIO</h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        @{
+                            string strLotacao = "Lotação: ";
+                            string strExcolaridade = "Escolaridade: ";
+
+                            if (Model != null)
+                            {
+                                strLotacao += Model.Lotacao;
+                                strExcolaridade += Model.Escolaridade;
+                            }
+
+                        }                    
+                            <input type="text" name="lotacao" disabled placeholder="Lotação" value="@Html.Raw(strLotacao)" style="width:56%;margin-top:10px;margin-bottom:10px;" />                    
+                   
+                            <input type="text" name="escolaridade" disabled placeholder="Escolaridade:" value="@Html.Raw(strExcolaridade)" style="width:56%;" />
+                    
+
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Lotacao" class="control-label"></label>
-                <input asp-for="Lotacao" class="form-control" />
-                <span asp-validation-for="Lotacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CaminhoFoto" class="control-label"></label>
-                <input asp-for="CaminhoFoto" class="form-control" />
-                <span asp-validation-for="CaminhoFoto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Escolaridade" class="control-label"></label>
-                <input asp-for="Escolaridade" class="form-control" />
-                <span asp-validation-for="Escolaridade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
