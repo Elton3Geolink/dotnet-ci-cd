@@ -20,8 +20,7 @@ namespace Masp.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("Usuario");
-            //return View();
+            return RedirectToAction("Usuario");            
         }
 
         public IActionResult Privacy()
@@ -33,17 +32,28 @@ namespace Masp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        //public IActionResult Usuario()
-        //{
-        //    return View(new Usuario());
-        //}
+        }  
 
         public IActionResult Usuario(string masp)
         {
             if(!string.IsNullOrWhiteSpace(masp))
                 return View(new Usuario().Obter(masp));
+
+            return View(null);
+        }
+
+        public IActionResult ListarArmas(string masp_user)
+        {
+            if (!string.IsNullOrWhiteSpace(masp_user))
+                return View(new Usuario().Obter(masp_user));
+
+            return View(null);
+        }
+
+        public IActionResult ListarCursos(string masp_user)
+        {
+            if (!string.IsNullOrWhiteSpace(masp_user))
+                return View(new Usuario().Obter(masp_user));
 
             return View(null);
         }

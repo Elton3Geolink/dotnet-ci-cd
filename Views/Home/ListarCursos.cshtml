@@ -1,0 +1,152 @@
+﻿@*@model Masp.Models.Usuario
+
+    @{
+        ViewData["Title"] = "";
+
+    }
+
+
+
+    <div class="back">
+        <a href="javascript:history.back()">Go Back</a>
+    </div>
+    <h4>Treminamentos</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+
+            @{
+                if (Model != null && Model.Capacitacoes.Any())
+                {
+                    foreach (var capacitacao in Model.Capacitacoes)
+                    {
+                        <div class="box-arm">
+                            <span class="titulo">@Html.Raw(capacitacao.Nome)</span>
+                            <div class="img-arm">
+                                <img src="~/images/@Html.Raw(capacitacao.CaminhoEscudo)" asp-append-version="true">
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
+
+
+
+
+
+@model Masp.Models.Usuario
+
+@{
+    ViewData["Title"] = "Usuario";
+
+    string masp_user = (Model != null && !string.IsNullOrWhiteSpace(Model.Masp)) ? Model.Masp : string.Empty;
+
+    string srcImagem = (Model != null && !string.IsNullOrWhiteSpace(Model.CaminhoFoto)) ? Model.CaminhoFoto : "user.png";
+}
+
+@{
+    string strMasp = Model != null ? Model.Masp : string.Empty;
+}
+
+
+<hr />
+
+
+<div class="row">
+
+    @{
+        <div class="col-md-3">
+            <div class="box-foto">
+                <h5>POLÍCIA PENAL</h5>
+
+                <img src="~/images/@Html.Raw(srcImagem)" asp-append-version="true">
+
+                <div class="inputs">
+                    <form asp-action="Usuario">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(strMasp))
+                                @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' value={strMasp} />")
+                                else
+                                    @Html.Raw($"<input type='text' name='masp' autofocus placeholder='MASP' />")
+
+                        }
+
+                        <input type="submit" value=">" class="btn-input" />
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+
+
+
+    <div class="col-md-6">
+        <div style="text-align:center;" class="box-brazao">
+            <img src="~/images/brazao-sistema-prisional.png" asp-append-version="true" style="width:300px;height:300px;">
+            <div class="col-md-12">
+
+                <input type="text" disabled placeholder="Lotação" value="@Html.Raw($"Unidade de lotação: {Model.Lotacao}")" style="width:56%;margin-top:10px;margin-bottom:10px;" />
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" style="text-align:center;display: contents;">
+
+        <div class="col-md-6" style="text-align:center;">
+            <h6 style="margin-bottom:50px;">Capacitação de cursos pelo Estado</h6>
+            @{
+                if (Model != null)
+                {
+                    foreach (var capacitacao in Model.Capacitacoes.Where(x => x.Particular))
+                    {
+                        <div class="box-arm">                            
+                            <div class="img-brazao">
+                                <img src="~/images/@Html.Raw(capacitacao.CaminhoEscudo)" asp-append-version="true">
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <div class="col-md-6" style="text-align:center;">
+            <h6 style="margin-bottom:50px;">Capacitação de cursos particular</h6>
+            @{
+                if (Model != null)
+                {
+                    foreach (var capacitacao in Model.Capacitacoes.Where(x => !x.Particular))
+                    {
+                        <div class="box-arm">                            
+                            <div class="img-brazao">
+                                <img src="~/images/@Html.Raw(capacitacao.CaminhoEscudo)" asp-append-version="true">
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
